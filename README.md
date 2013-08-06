@@ -37,22 +37,34 @@ module.exports = function(jedi) {
 
 };
 ```
-For now only two types of selectors are supported : "text" and "src",
 
+For now only two types of selectors are supported : "text" and "src"
 
-You can then load your padawans to the Jedi by doing
+I find having one file per padawan (crawler) pretty cool for code clarity and also padawans need to learn by themselve and be alone
+
+You can then give your padawans to the Jedi by doing
 
 ```javascript
 var jedi = require('./modules/jedi');
 require('./padawans/wikipedia')(jedi);
 ```
 
-But anyway check the code
+And then you can do
+
+```javascript
+jedi.crawl('http://en.wikipedia.org/whatever', function(err, result){
+  console.log(err);
+  console.log(result);
+});
+```
+
 
 Special features
 -----------------
 
 Crawlers **only** start to scrape the page **as soon as $(document).ready is fired**. Our own version of jQuery is injected into the page, but then we also give back the $ to its owner in case they're executing 3rd party libraries to modify the DOM or w/e
+
+If your selectors matches severals DOM elements, then an array of every value is returned
 
 Right now, PhantomJS is instantiated with "--load-images=no" option so the page loads faster
 
