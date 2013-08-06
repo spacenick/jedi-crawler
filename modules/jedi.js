@@ -96,7 +96,7 @@ module.exports = {
 
                                 var result = {};
                                 for (var key in data) {
-                                    var sel = $(data[key].sel);
+                                    var sel = $JEDI(data[key].sel);
                                     var type = data[key].type;
 
                                     var getValue = function(sel, type) {

@@ -6,9 +6,15 @@ Da fuq?
 
 JEDI CRAWLER is a Node/PhantomJS crawler made to scrape pretty much anything from Node, with a really simple syntax. Work in progress ladies
 
+```
+npm install jedi-crawler
+```
+
 How does it work
 -------------------------
-Register padawans to the jedi crawler, that have a pattern to match URL, and jQuery-style selectors. You can also post-process the data.
+Register padawans to the jedi crawler, that have a pattern to match a URL, and jQuery-style selectors. You can also post-process the data if you need to do some treatment (number conversion, etc)
+
+wikipedia.js:
 
 ```javascript
 module.exports = function(jedi) {
@@ -42,10 +48,14 @@ For now only two types of selectors are supported : "text" and "src"
 
 I find having one file per padawan (crawler) pretty cool for code clarity and also padawans need to learn by themselve and be alone
 
+```
+npm install jedi-crawlers
+```
+
 You can then give your padawans to the Jedi by doing
 
 ```javascript
-var jedi = require('./modules/jedi');
+var jedi = require('jedi-crawler');
 require('./padawans/wikipedia')(jedi);
 ```
 
@@ -57,6 +67,8 @@ jedi.crawl('http://en.wikipedia.org/whatever', function(err, result){
   console.log(result);
 });
 ```
+
+As the jedi will figure out what padawan to use given on the URL and of the pattern you set
 
 
 Special features
