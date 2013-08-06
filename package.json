@@ -1,6 +1,6 @@
 {
   "name": "jedi-crawler",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lightsabing Node/PhantomJS crawler. Crawl almost everything, including AJAX content.",
   "main": "main.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "author": "Nicolas Kermarc",
   "license": "MIT",
   "dependencies": {
-    "phantom": "~0.5.2",
-    "lodash": "~1.3.1"
+    "lodash": "~1.3.1",
+    "node-phantom": "~0.2.3"
   }
 }

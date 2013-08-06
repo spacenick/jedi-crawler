@@ -1,9 +1,9 @@
-var phantom = require('phantom'),
+var phantom = require('node-phantom'),
 _ = require('lodash');
 
 // Instantiate phantom internal function
 var init = function(callback) {
-    phantom.create('--load-images=no', callback);
+    phantom.create(callback, {parameters:{'load-images':'no','ignore-ssl-errors':'yes'}});
 };
 
 var padawans = [];
@@ -30,9 +30,9 @@ module.exports = {
         }
 
         // let's init that mysterious phantomJS
-        init(function(ph) {
+        init(function(err, ph) {
             // Create a page
-            ph.createPage(function(page) {
+            ph.createPage(function(err, page) {
 
                 // by the PhantomJS team; just adjusted it for node-phantom bridge
                 // https://github.com/ariya/phantomjs/blob/master/examples/waitfor.js
@@ -44,7 +44,7 @@ module.exports = {
                         if ( (new Date().getTime() - start < maxtimeOutMillis) && !condition ) {
                             // If not time-out yet and condition not yet fulfilled
                             // Adjustement is made here (NK) -- we need to pass a callback
-                            testFx(function(result){
+                            testFx(function(err,result){
                                 condition = result;
                             });
                         } else {
@@ -64,7 +64,7 @@ module.exports = {
 
 
                 // Let's open the URL
-                page.open(url, function(status) {   
+                page.open(url, function(err, status) {   
                     if (status !== "success") {
                         callbackFunction("An error occured while opening the page with Phantom : "+status);
                         ph.exit();
@@ -72,7 +72,7 @@ module.exports = {
                     }
 
                     // Let's include latest jQuery bitches   
-                    page.includeJs('https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js', function() {
+                    page.includeJs('https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js', function(err) {
                         
                         // Let's drop a variable when DOM is ready
                         // We do that straight after including jQ
@@ -124,7 +124,7 @@ module.exports = {
                                 }
                                 return result;
 
-                            }, function(result) {
+                            }, function(err, result) {
                                 // postProcessing is not mandatory and is just identity function if doesnt exist
                                 var postProcessing = padawan.postProcessing ? padawan.postProcessing : function(d) { return d; };
                                 callbackFunction(null, postProcessing(result));
