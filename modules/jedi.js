@@ -77,11 +77,10 @@ module.exports = {
                         // Let's drop a variable when DOM is ready
                         // We do that straight after including jQ
                         page.evaluate(function(){
-                            window.$JEDI = $;
+                            window.$JEDI = $.noConflict();
                             // Give back $ to its previous owner in case
                             // they're doing some random shit on the DOM with custom libs
-                            $.noConflict();
-                            $JEDI(document).ready(function(){
+                            window.$JEDI(document).ready(function(){
                                 window['JEDI-DOM-LOADED-BITCHES'] = true;
                             });
                         });
@@ -96,7 +95,7 @@ module.exports = {
 
                                 var result = {};
                                 for (var key in data) {
-                                    var sel = $JEDI(data[key].sel);
+                                    var sel = window.$JEDI(data[key].sel);
                                     var type = data[key].type;
 
                                     var getValue = function(sel, type) {
@@ -114,7 +113,7 @@ module.exports = {
                                     else if (sel.length > 1) {
                                         result[key] = [];
                                         sel.each(function(){
-                                            result[key].push(getValue($JEDI(this), type));
+                                            result[key].push(getValue(window.$JEDI(this), type));
                                         });
                                     }
                                     else {
