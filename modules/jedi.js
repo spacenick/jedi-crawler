@@ -66,8 +66,8 @@ module.exports = {
                 // Let's open the URL
                 page.open(url, function(err, status) {   
                     if (status !== "success") {
-                        callbackFunction("An error occured while opening the page with Phantom : "+status);
                         ph.exit();
+                        callbackFunction("An error occured while opening the page with Phantom : "+status);
                         return;
                     }
 
@@ -128,8 +128,8 @@ module.exports = {
                             }, function(err, result) {
                                 // postProcessing is not mandatory and is just identity function if doesnt exist
                                 var postProcessing = padawan.postProcessing ? padawan.postProcessing : function(d) { return d; };
-                                callbackFunction(null, postProcessing(result));
                                 ph.exit();
+                                callbackFunction(null, postProcessing(result));
                             }, padawan.selectors);
                         });
 
