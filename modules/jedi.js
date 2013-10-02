@@ -3,7 +3,7 @@ _ = require('lodash');
 
 // Instantiate phantom internal function
 var init = function(callback) {
-    phantom.create(callback, {parameters:{'load-images':'no','ignore-ssl-errors':'yes'}});
+    phantom.create(callback, {parameters:{'ignore-ssl-errors':'yes'}});
 };
 
 var padawans = [];
@@ -92,36 +92,38 @@ module.exports = {
                         },
                         function(){
                             return page.evaluate(function(data){
+                                // Don't pollute the global space
+                                return (function(){
+                                    var result = {};
+                                    for (var key in data) {
+                                        var sel = window.$JEDI(data[key].sel);
+                                        var type = data[key].type;
 
-                                var result = {};
-                                for (var key in data) {
-                                    var sel = window.$JEDI(data[key].sel);
-                                    var type = data[key].type;
+                                        var getValue = function(sel, type) {
+                                            if (type == "text") {
+                                                return sel.text();
+                                            }
+                                            else if (type == "src") {
+                                                return sel.attr('src');
+                                            }
+                                        };
 
-                                    var getValue = function(sel, type) {
-                                        if (type == "text") {
-                                            return sel.text();
+                                        if (sel.length == 1) {
+                                            result[key] = getValue(sel, type);
                                         }
-                                        else if (type == "src") {
-                                            return sel.attr('src');
+                                        else if (sel.length > 1) {
+                                            result[key] = [];
+                                            sel.each(function(){
+                                                result[key].push(getValue(window.$JEDI(this), type));
+                                            });
                                         }
-                                    };
-
-                                    if (sel.length == 1) {
-                                        result[key] = getValue(sel, type);
+                                        else {
+                                            result[key] = null;
+                                        }
+                                        
                                     }
-                                    else if (sel.length > 1) {
-                                        result[key] = [];
-                                        sel.each(function(){
-                                            result[key].push(getValue(window.$JEDI(this), type));
-                                        });
-                                    }
-                                    else {
-                                        result[key] = null;
-                                    }
-                                    
-                                }
-                                return result;
+                                    return result;
+                                })();
 
                             }, function(err, result) {
                                 // postProcessing is not mandatory and is just identity function if doesnt exist
