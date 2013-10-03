@@ -51,7 +51,7 @@ module.exports = {
                             if(!condition) {
                                 // If condition still not fulfilled (timeout but condition is 'false')
                                 console.log("'waitFor()' timeout");
-                                phantom.exit(1);
+                                ph.exit();
                             } else {
                                 // Condition fulfilled (timeout and/or condition is 'true')
                                 console.log("'waitFor()' finished in " + (new Date().getTime() - start) + "ms.");
@@ -77,7 +77,7 @@ module.exports = {
                         // Let's drop a variable when DOM is ready
                         // We do that straight after including jQ
                         page.evaluate(function(){
-                            window.$JEDI = $.noConflict();
+                            window.$JEDI = $.noConflict(true);
                             // Give back $ to its previous owner in case
                             // they're doing some random shit on the DOM with custom libs
                             window.$JEDI(document).ready(function(){
