@@ -64,16 +64,16 @@ module.exports = {
 
 
                 // Let's open the URL
-                page.open(url, function(err, status) {
+                page.open(url, function(err, status) {   
                     if (status !== "success") {
                         ph.exit();
                         callbackFunction("An error occured while opening the page with Phantom : "+status);
                         return;
                     }
 
-                    // Let's include latest jQuery bitches
+                    // Let's include latest jQuery bitches   
                     page.includeJs('https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js', function(err) {
-
+                        
                         // Let's drop a variable when DOM is ready
                         // We do that straight after including jQ
                         page.evaluate(function(){
@@ -120,7 +120,7 @@ module.exports = {
                                         else {
                                             result[key] = null;
                                         }
-
+                                        
                                     }
                                     return result;
                                 })();
