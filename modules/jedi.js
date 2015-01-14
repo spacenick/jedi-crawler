@@ -103,8 +103,8 @@ module.exports = {
                                             if (type == "text") {
                                                 return sel.text();
                                             }
-                                            else if (type == "src") {
-                                                return sel.attr('src');
+                                            else {
+                                                return sel.attr(type);
                                             }
                                         };
 
